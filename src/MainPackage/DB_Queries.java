@@ -15,11 +15,17 @@ public class DB_Queries {
 	public synchronized static void setbew(String hostIp, MarktImport oliviaMarkt) {
 
 		Connection conn = null;
-
+		
+		// Bitte fÃ¼llen
+		int port = 0; //zu_fuellen
+		String user = "zu_fuellen"; 
+		String password = "zu_fuellen";
+		String dbTable = "zu_fuellen";
+		
 		try {
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@" + hostIp + ":1521/ebus.world", "ebus", "ebus");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@" + hostIp +":" +port+"/"+dbTable, user, password);
 		} catch (SQLException e) {
-			Log.write("DB_Queries.Setbew(" + hostIp + ":1521)-Connection-Exception: " + e);
+			Log.write("DB_Queries.Setbew(" + hostIp + ":"+port+")-Connection-Exception: " + e);
 		}
 
 		try {
@@ -32,13 +38,13 @@ public class DB_Queries {
 			// 'Pseudo Bulk-Collect'
 			ArrayList<Bewirtschaftung> changeBewirt = new ArrayList<Bewirtschaftung>();
 
-			// Ausführen der Queries
+			// AusfÃ¼hren der Queries
 			changeBewirt = getChanges(stmt, "0", query_entwirt, changeBewirt);
 			changeBewirt = getChanges(stmt, "1", query_bewirt, changeBewirt);
 			changeBewirt = getChanges(stmt, "1", query_pfand, changeBewirt);
 
 			if (changeBewirt != null) {
-				Log.write("DatabaseController.setbewirt(" + hostIp + "," + oliviaMarkt.marktName + "): Änderung von "
+				Log.write("DatabaseController.setbewirt(" + hostIp + "," + oliviaMarkt.marktName + "): Ã„nderung von "
 						+ changeBewirt.size() + " Bewirtschaftungs-Kennzeichen");
 				Log.writeBewirtLog(changeBewirt); //Siehe @Override toString Methode 
 
